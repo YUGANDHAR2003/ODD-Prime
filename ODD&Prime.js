@@ -18,21 +18,20 @@ function countDigits(inputNumber) {
  * @returns {boolean} - True if the input number has the "ODD" property, otherwise false.
  */
 function isOddPropertyNumber(inputNumber) {
-    let initialCount = countDigits(inputNumber)
-
-    if (initialCount === 1) {
-        return false // Not ODD
+    if (inputNumber < 10) {
+        return false // Single-digit numbers can't have the "ODD" property
     }
 
-    while (inputNumber > 0) {
-        let temp = inputNumber
-        let rem1 = Math.floor(inputNumber % 10)
-        inputNumber = Math.floor(temp / 10)
-        let rem2 = Math.floor(inputNumber % 10)
+    let lastDigit = inputNumber % 10
+    inputNumber = Math.floor(inputNumber / 10)
 
-        if (Math.abs(rem1 - rem2) !== 1) {
+    while (inputNumber > 0) {
+        let currentDigit = inputNumber % 10
+        if (Math.abs(lastDigit - currentDigit) !== 1) {
             return false // Not ODD
         }
+        lastDigit = currentDigit
+        inputNumber = Math.floor(inputNumber / 10)
     }
 
     return true // ODD
@@ -58,12 +57,12 @@ function isPrime(num) {
 }
 
 /**
- * Counts the number of ODD property prime numbers between 0 and 10 million.
+ * Counts and prints the ODD property prime numbers between 0 and 10 million.
  */
-function countOddPropertyPrimeNumbers() {
+function countAndPrintOddPropertyPrimeNumbers() {
     let count = 0
 
-    for (let i = 0; i <= 10000000; i++) {
+    for (let i = 10; i <= 10000000; i++) { // Start from 10 to skip single-digit numbers
         if (isOddPropertyNumber(i) && isPrime(i)) {
             count++
             console.log("ODD property prime number: " + i)
@@ -73,5 +72,5 @@ function countOddPropertyPrimeNumbers() {
     console.log("Number of ODD property prime numbers between 0 and 10 million: " + count)
 }
 
-// Call the function to count ODD property prime numbers
-countOddPropertyPrimeNumbers()
+// Call the function to count and print ODD property prime numbers
+countAndPrintOddPropertyPrimeNumbers()
